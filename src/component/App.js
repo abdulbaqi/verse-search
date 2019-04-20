@@ -1,8 +1,13 @@
 import React from "react";
+import SearchVerse from "./SearchVerse";
 
 class App extends React.Component {
   render() {
-    return <div>React started successfully...</div>;
+    return (
+      <div className="ui container" style={{ marginTop: "10px" }}>
+        <SearchVerse />
+      </div>
+    );
   }
 }
 
