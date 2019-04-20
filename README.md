@@ -20,7 +20,7 @@ ReactDOM.render(<App />, document.querySelector('#root'));
 
 Then, we create a folder under `src` called `component` and create `App.js` file with the following content.
 
-```
+```javascript
 import React from 'react';
 
 class App extends React.Component {
