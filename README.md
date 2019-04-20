@@ -171,3 +171,34 @@ class SearchVerse extends React.Component {
 ```
 
 ### API
+
+We will install `axios` to work with getting API request
+
+```
+yarn add axios
+```
+
+Next, we need to study the documentation of our API provider, which is available at:
+https://alquran.cloud/api
+
+Inside the `App` we need to make an `async` and `await` construct with `axios.get` as follows. Note that our extraction of data from response is highly depended on the nature of API response and could vary from a provider to another.
+
+```javascript
+onFormSubmit = async term => {
+  const url = `http://api.alquran.cloud/v1/search/${term}/all/en.sahih`;
+  const response = await axios.get(url);
+  console.log(response.data.data.matches);
+  const tmp = [];
+  response.data.data.matches.forEach(d => {
+    tmp.push(d.text);
+  });
+  console.log(tmp);
+
+  this.setState({
+    count: response.data.data.count,
+    verses: tmp
+  });
+};
+```
+
+Now, we pass the resutls stored in our states to another component for the purpose of displaying `DisplayVerses`.
