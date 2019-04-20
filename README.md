@@ -70,6 +70,7 @@ class SearchVerse extends React.Component {
 
 export default SearchVerse;
 ```
+
 Also, a little bit of Semantic UI in the `App` file as follows:
 
 ```javascript
@@ -83,3 +84,90 @@ class App extends React.Component {
   }
 }
 ```
+
+### State system and passing information back and forth
+
+Now comes the tricky parts. First, we will create a state inside `SearchVerse` that would hold the value of `input` form as the user types some term inside the search bar. This is achieved by the followng code which will just display whatever the user types:
+
+```javascript
+//insie the SearchVerse.js file
+
+class SearchVerse extends React.Component {
+  state = { term: "" };
+
+  render() {
+    return (
+      <div className="ui segment">
+        <form className="ui form">
+          <div className="field">
+            <label>Enter search term:</label>
+            <input
+              type="text"
+              onChange={e => {
+                this.setState({ term: e.target.value });
+              }}
+            />
+          </div>
+        </form>
+        <p>You are searching for: {this.state.term}</p>
+      </div>
+    );
+  }
+}
+```
+
+Next, what happens after the `submit` which occurs after pressing `enter`? We want two things to happen
+
+1. first, we do NOT want to refresh the page by trying to send the form over server, that means we want to prevent default i.e., `event.preventDefault()`.
+2. We want somehow to pass the search term to the parent, i.e., `App.js`. How to do that?
+
+For that, two steps are needed:
+a. In the `App` pass a prop which is a function to the child as follows:
+
+```javascript
+class App extends React.Component {
+  onFormSubmit = term => {
+    console.log(`we are searching for ${term}`);
+  };
+  render() {
+    return (
+      <div className="ui container" style={{ marginTop: "10px" }}>
+        <SearchVerse onSubmit={this.onFormSubmit} />
+      </div>
+    );
+  }
+}
+```
+
+b. in the child we implement the handler function and pass the internal state (which we already populated at the time of input search `onChange` handler) to the props called `onSubmit` in the `App`, as follows:
+
+```javascript
+class SearchVerse extends React.Component {
+  state = { term: "" };
+  onFormSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.term);
+  };
+
+  render() {
+    return (
+      <div className="ui segment">
+        <form onSubmit={this.onFormSubmit} className="ui form">
+          <div className="field">
+            <label>Enter search term:</label>
+            <input
+              type="text"
+              onChange={e => {
+                this.setState({ term: e.target.value });
+              }}
+            />
+          </div>
+        </form>
+        <p>You are searching for: {this.state.term}</p>
+      </div>
+    );
+  }
+}
+```
+
+### API

@@ -1,15 +1,27 @@
 import React from "react";
 
 class SearchVerse extends React.Component {
+  state = { term: "" };
+  onFormSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.term);
+  };
+
   render() {
     return (
       <div className="ui segment">
-        <form className="ui form">
+        <form onSubmit={this.onFormSubmit} className="ui form">
           <div className="field">
             <label>Enter search term:</label>
-            <input type="text" />
+            <input
+              type="text"
+              onChange={e => {
+                this.setState({ term: e.target.value });
+              }}
+            />
           </div>
         </form>
+        <p>You are searching for: {this.state.term}</p>
       </div>
     );
   }
