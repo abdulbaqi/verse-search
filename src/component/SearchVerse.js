@@ -9,12 +9,12 @@ class SearchVerse extends React.Component {
 
   render() {
     return (
-      <div className="ui segment">
+      <div>
         <form onSubmit={this.onFormSubmit} className="ui form">
-          <div className="field">
-            <label>Enter search term:</label>
+          <div className="focus field">
             <input
               type="text"
+              placeholder="Enter search term(s) and press 'Enter'"
               onChange={e => {
                 this.setState({ term: e.target.value });
               }}

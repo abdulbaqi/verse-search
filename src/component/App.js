@@ -61,7 +61,11 @@ class App extends React.Component {
     }
 
     return (
-      <div className="ui container" style={{ marginTop: "10px" }}>
+      <div className="ui container" style={{ marginTop: "20px" }}>
+        <h1> Search the Quran</h1>
+        <div className="dim">
+          Search in Sahih International English Translation
+        </div>
         <SearchVerse onSubmit={this.onFormSubmit} />
 
         {this.state.loading ? (

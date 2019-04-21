@@ -1,6 +1,6 @@
 # Searching Quranic Verse
 
-This react app explores basics of react app creation and its purpose is to be a tutorial documenting the typical steps.
+This react app explores basics of react app creation and its purpose is to be a tutorial documenting the typical steps. All codes are available in this [github](https://github.com/abdulbaqi/verse-search) repo. 
 
 First, we create the scaffolding using `npx` as follows:
 
@@ -295,3 +295,15 @@ Spinner.defaultProps = {
 
 export default Spinner;
 ```
+You can expand this with so many other styling aspects, but let me turn to deployment issues.
+
+## Deployment
+
+What is the value of such an app without exposing it to the world. So, I have my DigitalOcean droplet and I have registered my domain name (playquran.com) and served it through `nginx` engine. So, now I want to deploy this react app to the site so it should be available in a location like `playquran.com/search`. This method basically `builds` the project and serves the built folder as static content through nginx router. I descibed this process in an earlier [post](http://abdulbaqi.io/2019/04/20/Nginx-config/) in my site, from which you can take over the rest of the process.
+
+The other way is to keep the app running on a port in the server through a background process engine like `pm2` and create the appropriate nginx construct as described in [this](https://hackernoon.com/start-to-finish-deploying-a-react-app-on-digitalocean-bcfae9e6d01b) article. 
+
+
+
+Thanks for your attention. 
+
