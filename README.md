@@ -183,6 +183,41 @@ https://alquran.cloud/api
 
 Inside the `App` we need to make an `async` and `await` construct with `axios.get` as follows. Note that our extraction of data from response is highly depended on the nature of API response and could vary from a provider to another.
 
+So, in our case, a typical resutls would be like the following:
+
+```json
+{
+  "code": 200,
+  "status": "OK",
+  "data": {
+    "count": 72,
+    "matches": [
+      {
+        "number": 131,
+        "text": "And [mention, O Muhammad], when Abraham was tried by his Lord with commands and he fulfilled them. [Allah] said, \"Indeed, I will make you a leader for the people.\" [Abraham] said, \"And of my descendants?\" [Allah] said, \"My covenant does not include the wrongdoers.\"",
+        "edition": {
+          "identifier": "en.sahih",
+          "language": "en",
+          "name": "Saheeh International",
+          "englishName": "Saheeh International",
+          "type": "translation"
+        },
+        "surah": {
+          "number": 2,
+          "name": "سورة البقرة",
+          "englishName": "Al-Baqara",
+          "englishNameTranslation": "The Cow",
+          "revelationType": "Medinan"
+        },
+        "numberInSurah": 124
+      }
+      //next record
+    ]
+  }
+
+```
+Here is the code that uses axios to fetch data asynchroneously.
+
 ```javascript
 onFormSubmit = async term => {
   const url = `http://api.alquran.cloud/v1/search/${term}/all/en.sahih`;
@@ -202,3 +237,61 @@ onFormSubmit = async term => {
 ```
 
 Now, we pass the resutls stored in our states to another component for the purpose of displaying `DisplayVerses`.
+
+Next, you will find ways to handle conditional rendering based on if no search term is found. 
+
+See how we achieve that in the render function of `App`.
+
+```javascript
+render() {
+    let message = null;
+    if (this.state.count === 0) {
+      message = (
+        <p className="termnotfound">
+          No Results for {this.state.term}. Try again.{" "}
+        </p>
+      );
+    } else if (this.state.count > 0) {
+      message = (
+        <DisplayVerses
+          count={this.state.count}
+          verses={this.state.verses}
+          term={this.state.term}
+        />
+      );
+    } else {
+      message = null;
+    }
+
+    return (
+      <div className="ui container" style={{ marginTop: "10px" }}>
+        <SearchVerse onSubmit={this.onFormSubmit} />
+
+        {this.state.loading ? (
+          <Spinner text="Wait..I am finding the verses" />
+        ) : (
+          message
+        )}
+      </div>
+    );
+  }
+```
+Also, above you will notice that I have introduced a component called `Spinner` that gives a nice waiting feature for the convinience of users while the axios is fetching data. Here is the `Spinner` component:
+
+```javascript
+import React from "react";
+
+const Spinner = props => {
+  return (
+    <div className="ui active dimmer">
+      <div className="ui text loader">{props.text}</div>
+    </div>
+  );
+};
+
+Spinner.defaultProps = {
+  text: "Wait..I am finding verses"
+};
+
+export default Spinner;
+```

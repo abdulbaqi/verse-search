@@ -21,7 +21,6 @@ class SearchVerse extends React.Component {
             />
           </div>
         </form>
-        <p>You are searching for: {this.state.term}</p>
       </div>
     );
   }

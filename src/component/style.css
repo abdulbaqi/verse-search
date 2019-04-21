@@ -1,0 +1,10 @@
+.termfound {
+    font-weight: 800;
+    color: green;
+}
+
+.termnotfound {
+    font-weight: 800;
+    color: orangered;
+}
+
